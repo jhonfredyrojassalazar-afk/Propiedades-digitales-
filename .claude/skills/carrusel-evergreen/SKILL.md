@@ -53,6 +53,40 @@ Cada portada necesita un protagonista visual que rompa scroll. Decide entre esta
 — Code debe poder explicar en una línea por qué eligió avatar propio o personaje
 nuevo para cada portada específica.
 
+## Regla anti-texto en generación — obligatoria en CADA llamada real
+
+**Higgsfield nunca genera texto dentro de una imagen.** Todo texto se escribe
+directo en los elementos de texto de Canva, nunca dentro de un asset generado
+(ni portada, ni mockup, ni fondo). Esta regla no basta con mencionarla una vez
+en este documento — hay que **reforzarla activamente en cada prompt real de
+generación**, porque en la práctica los modelos meten texto/logos/marcas de
+agua aunque no se les pida.
+
+Toda llamada de generación de imagen para un carrusel (portada, personaje,
+fondo, mockup) debe incluir, al final del prompt, esta instrucción negativa
+literal, sin resumirla ni parafrasearla:
+
+> "sin texto, sin palabras, sin letras, sin tipografía, sin logotipo, sin
+> marca de agua — imagen completamente limpia de cualquier texto"
+
+No asumas que basta con no pedir texto — hay que prohibirlo activamente en
+cada llamada, incluida la cotización (`get_cost: true`) y la generación real.
+
+### Falla documentada — Cinema Studio (`soul_cinematic`)
+
+**2026-08-02/03 — portada "búho mecánico" (carrusel de prueba Claude+Higgsfield):**
+el modelo `soul_cinematic` (Cinema Studio) generó texto/marca dentro de la
+imagen pese a que el prompt no lo pedía y no incluía todavía la instrucción
+negativa reforzada de arriba. Esa generación se descartó sin usar.
+
+**Mitigación mientras no se confirme que el problema está resuelto:** para
+personajes/portadas nuevas, usar primero **Soul V2 genérico (`soul_2`, sin
+`soul_id`)** o **FLUX.2 Pro (`flux_2`)** en vez de Cinema Studio, siempre con
+la instrucción negativa reforzada incluida. Si `soul_cinematic` vuelve a
+fallar en texto con la instrucción negativa ya incluida, agregar la fecha y el
+detalle a este registro — no basta con recordarlo una vez, cada fallo repetido
+se documenta aquí para que el patrón sea visible.
+
 ## Principios de diseño — portada que detiene el scroll
 
 Aplica estos principios profesionales de diseño editorial en cada portada,
